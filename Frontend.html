@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input, select, button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Restaurant Menu Management</h1>
+
+<!-- Form to Add New Menu Item -->
+<form id="addItemForm">
+    <h2>Add New Menu Item</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required><br>
+
+    <label for="ingredients">Ingredients:</label>
+    <input type="text" id="ingredients" name="ingredients" required><br>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" step="0.01" required><br>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="appetizer">Appetizer</option>
+        <option value="main course">Main Course</option>
+        <option value="dessert">Dessert</option>
+        <!-- Add more categories as needed -->
+    </select><br>
+
+    <button type="button" onclick="addMenuItem()">Add Menu Item</button>
+</form>
+
+<!-- Display Menu Items -->
+<h2>Menu Items</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Ingredients</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="menuItemsTableBody">
+        <!-- Menu items will be displayed here -->
+    </tbody>
+</table>
+
+<script>
+    // Function to add a new menu item
+    function addMenuItem() {
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const ingredients = document.getElementById('ingredients').value.split(',');
+        const price = parseFloat(document.getElementById('price').value);
+        const category = document.getElementById('category').value;
+
+        // TODO: Send a POST request to the backend to add the new menu item
+
+        // For now, let's log the data to the console
+        console.log({ name, description, ingredients, price, category });
+
+        // You can reset the form fields if needed
+        document.getElementById('addItemForm').reset();
+    }
+
+    // TODO: Function to fetch and display menu items from the backend
+
+    // For now, let's add some sample data to the table
+    const sampleData = [
+        { name: 'Sample Dish 1', description: 'A delicious sample dish', ingredients: ['Ingredient1', 'Ingredient2'], price: 9.99, category: 'appetizer' },
+        { name: 'Sample Dish 2', description: 'Another tasty sample dish', ingredients: ['Ingredient3', 'Ingredient4'], price: 12.99, category: 'main course' },
+        // Add more sample data as needed
+    ];
+
+    // Display sample data in the table
+    const tableBody = document.getElementById('menuItemsTableBody');
+    sampleData.forEach(item => {
+        const row = tableBody.insertRow();
+        row.innerHTML = `<td>${item.name}</td><td>${item.description}</td><td>${item.ingredients.join(',')}</td><td>${item.price}</td><td>${item.category}</td><td><button onclick="editMenuItem(${item.id})">Edit</button> <button onclick="deleteMenuItem(${item.id})">Delete</button></td>`;
+    });
+</script>
+
+</body>
+</html>
