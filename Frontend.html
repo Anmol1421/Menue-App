@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu Management</title>
+    <title>Restaurant Management System</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-image: url('https://media.istockphoto.com/id/1457979959/photo/snack-junk-fast-food-on-table-in-restaurant-soup-sauce-ornament-grill-hamburger-french-fries.webp?b=1&s=170667a&w=0&k=20&c=A_MdmsSdkTspk9Mum_bDVB2ko0RKoyjB7ZXQUnSOHl0='); /* Replace with your image URL */
+            background-size: cover;
+            color: #fff;
+        }
+
+        nav {
+            margin-bottom: 20px;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         table {
@@ -17,106 +60,178 @@
         }
 
         th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
+            border: 1px solid #ddd;
             padding: 8px;
+            text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #333;
+            color: #fff;
         }
 
-        form {
-            margin-top: 20px;
+        button {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
         }
 
-        input, select, button {
-            margin: 5px;
+        #feedbackForm,
+        #privateDiningForm,
+        #deliveryForm {
+            display: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .action-buttons button {
+            background-color: #333;
+            color: #fff;
+            margin-right: 5px;
         }
     </style>
+    
 </head>
+
 <body>
 
-<h1>Restaurant Menu Management</h1>
+    <header>
+        <h1 style="color: #ffffff;">Restaurant Management System</h1>
+    </header>
 
-<!-- Form to Add New Menu Item -->
-<form id="addItemForm">
-    <h2>Add New Menu Item</h2>
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" onclick="showFeedbackForm()">Feedback</a>
+        <a href="#" onclick="showPrivateDiningForm()">Private Dining Reservation</a>
+        <a href="#" onclick="getMenuItems()">Get Menu Items</a>
+        <a href="#" onclick="showDeliveryForm()">Delivery Options</a>
+    </nav>
 
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required><br>
+    <!-- Menu Items -->
+    <h2 style="color: #333;">Menu Items</h2>
+    
+    <!-- Display all menu items -->
+    <table id="menuItemsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Chicken Alfredo</td>
+                <td>Creamy Alfredo sauce with grilled chicken</td>
+                <td>12.99</td>
+                <td>Main Course</td>
+                <td class="action-buttons">
+                    <button onclick="editMenuItem(1)">Edit</button>
+                    <button onclick="deleteMenuItem(1)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Chicken Alfredo</td>
+                <td>Creamy Alfredo sauce with grilled chicken</td>
+                <td>12.99</td>
+                <td>Main Course</td>
+                <td class="action-buttons">
+                    <button onclick="editMenuItem(1)">Edit</button>
+                    <button onclick="deleteMenuItem(1)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Chicken Alfredo</td>
+                <td>Creamy Alfredo sauce with grilled chicken</td>
+                <td>12.99</td>
+                <td>Main Course</td>
+                <td class="action-buttons">
+                    <button onclick="editMenuItem(1)">Edit</button>
+                    <button onclick="deleteMenuItem(1)">Delete</button>
+                </td>
+            </tr>
+            <!-- Menu items will be dynamically inserted here -->
+        </tbody>
+    </table>
 
-    <label for="ingredients">Ingredients:</label>
-    <input type="text" id="ingredients" name="ingredients" required><br>
+    <form id="menuItemForm" onsubmit="addMenuItem(event)">
+        <label>Name:</label>
+        <input type="text" id="menuItemName" required>
+        <br>
+        <br>
+        <label>Description:</label>
+        <input type="text" id="menuItemDescription" required>
+        <br>
+        <br>
+        <label>Price:</label>
+        <input type="number" id="menuItemPrice" step="0.01" required>
+        <br>
+        <br>
+        <label>Category:</label>
+        <input type="text" id="menuItemCategory" required>
+        <br>
+        <br>
+        <button type="submit" style="background-color: #333; color: #fff;">Add Menu Item</button>
+    </form>
 
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" step="0.01" required><br>
+    <!-- Feedback -->
+    <form id="feedbackForm" onsubmit="submitFeedback(event)">
+        <label>Name:</label>
+        <input type="text" id="feedbackName" required>
+        <br>
+        <label>Email:</label>
+        <input type="email" id="feedbackEmail" required>
+        <br>
+        <label>Feedback:</label>
+        <textarea id="feedbackMessage" required></textarea>
+        <br>
+        <button type="submit" style="background-color: #333; color: #fff;">Submit Feedback</button>
+    </form>
 
-    <label for="category">Category:</label>
-    <select id="category" name="category" required>
-        <option value="appetizer">Appetizer</option>
-        <option value="main course">Main Course</option>
-        <option value="dessert">Dessert</option>
-        <!-- Add more categories as needed -->
-    </select><br>
+    <!-- Private Dining -->
+    <form id="privateDiningForm" onsubmit="makeReservation(event)">
+        <label>Name:</label>
+        <input type="text" id="reservationName" required>
+        <br>
+        <label>Email:</label>
+        <input type="email" id="reservationEmail" required>
+        <br>
+        <label>Date:</label>
+        <input type="date" id="reservationDate" required>
+        <br>
+        <label>Time:</label>
+        <input type="time" id="reservationTime" required>
+        <br>
+        <label>Party Size:</label>
+        <input type="number" id="reservationPartySize" required>
+        <br>
+        <button type="submit" style="background-color: #333; color: #fff;">Make Reservation</button>
+    </form>
 
-    <button type="button" onclick="addMenuItem()">Add Menu Item</button>
-</form>
-
-<!-- Display Menu Items -->
-<h2>Menu Items</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Ingredients</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="menuItemsTableBody">
-        <!-- Menu items will be displayed here -->
-    </tbody>
-</table>
-
-<script>
-    // Function to add a new menu item
-    function addMenuItem() {
-        const name = document.getElementById('name').value;
-        const description = document.getElementById('description').value;
-        const ingredients = document.getElementById('ingredients').value.split(',');
-        const price = parseFloat(document.getElementById('price').value);
-        const category = document.getElementById('category').value;
-
-        // TODO: Send a POST request to the backend to add the new menu item
-
-        // For now, let's log the data to the console
-        console.log({ name, description, ingredients, price, category });
-
-        // You can reset the form fields if needed
-        document.getElementById('addItemForm').reset();
-    }
-
-    // TODO: Function to fetch and display menu items from the backend
-
-    // For now, let's add some sample data to the table
-    const sampleData = [
-        { name: 'Sample Dish 1', description: 'A delicious sample dish', ingredients: ['Ingredient1', 'Ingredient2'], price: 9.99, category: 'appetizer' },
-        { name: 'Sample Dish 2', description: 'Another tasty sample dish', ingredients: ['Ingredient3', 'Ingredient4'], price: 12.99, category: 'main course' },
-        // Add more sample data as needed
-    ];
-
-    // Display sample data in the table
-    const tableBody = document.getElementById('menuItemsTableBody');
-    sampleData.forEach(item => {
-        const row = tableBody.insertRow();
-        row.innerHTML = `<td>${item.name}</td><td>${item.description}</td><td>${item.ingredients.join(',')}</td><td>${item.price}</td><td>${item.category}</td><td><button onclick="editMenuItem(${item.id})">Edit</button> <button onclick="deleteMenuItem(${item.id})">Delete</button></td>`;
-    });
-</script>
-
-</body>
-</html>
+    <!-- Delivery Options -->
+    <form id="deliveryForm" onsubmit="updateDeliveryOptions(event)">
+        <label>Delivery Service:</label>
+        <input type="text" id="deliveryService" required>
+        <br>
+        <label>Delivery Time:</label>
+        <input type="text" id="deliveryTime" required>
+        <br>
+        <label>Delivery Fee:</label>
+        <input type="number" id="deliveryFee" step="0.01" required>
+        <br>
+        <button type="submit" style="background-color: #333; color: #fff;">Update Delivery Options</button>
+    </form>
